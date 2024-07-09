@@ -1,0 +1,69 @@
+extends layout.pug
+
+block scripts
+	script(type="text/javascript", src="/js/playback.js")
+	script(type="text/javascript", src="/js/trolley.js")
+	style(type="text/css").
+		div.track a.remove {
+			display: block;
+		}
+		div.track a.license {
+			display: none;
+		}
+block content
+	h1 Shopping Trolley
+	h3.faq Tracks
+	.trolleyTracks
+		for track in trolleyTracks
+			div(id=track.track.id, data-genre=track.track.genre, data-mood=track.track.mood, data-checksum=track.track.checksum, data-style=track.track.style, data-duration=track.track.duration, data-tempo=track.track.tempo, class=track.track.featured==1 ? "track featured noselect" : "track noselect")
+				ul
+					li
+						a.info
+							img(src="/images/icon-info.png", alt="Info", srcset="/images/icon-info@2x.png 2x, /images/icon-info@3x.png 3x")
+					li
+						a.play
+							img(src="/images/icon-play.png", alt="Play/Pause", srcset="/images/icon-play@2x.png 2x, /images/icon-play@3x.png 3x")
+					li.title= track.track.title
+					li.artist
+						a.artist(href="javascript:void(0)")= track.track.artist
+				if track.licence
+					a.remove(href="/trolley/remove/"+track.track.id+"/licence/"+track.licence.id)
+						img(src="/images/icon-stop.png", alt="Remove", srcset="/images/icon-stop@2x.png 2x, /images/icon-stop@3x.png 3x")
+				else if track.comm_licence
+					a.remove(href="/trolley/remove/"+track.track.id+"/comm_licence/"+track.comm_licence.id+"?company="+track.company+"&projectTitle="+track.project_title)
+						img(src="/images/icon-stop.png", alt="Remove", srcset="/images/icon-stop@2x.png 2x, /images/icon-stop@3x.png 3x")
+				div.waveform
+					img.noselect(src="/images/waveforms/"+track.track.checksum+"-gray.png", alt="")
+					div.played
+						img.noselect(src="/images/waveforms/"+track.track.checksum+"-blue.png", alt="")
+			if track.licence
+				table.licence
+					tbody
+						tr
+							td
+								strong Licence:
+								| 
+								| #{track.licence.name}
+							td Per track £#{track.licence.track_price}
+			else if track.comm_licence
+				table.licence.commercial
+					tbody
+						tr
+							td
+								strong Licence:
+								| 
+								| #{track.comm_licence.name}
+							td= track.comm_licence.territory
+							td Per #{track.comm_licence.unit} £#{track.comm_licence.price}
+	include player_noselect.pug
+	table.licence.total
+		tbody
+			tr
+				td
+					strong Total
+				td
+					strong £#{total}
+	p.trolley.buttons
+		a.button.large(href="/music") Continue Shopping
+		| 
+		a.button.checkout(href="/trolley/checkout") Checkout

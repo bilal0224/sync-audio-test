@@ -1,0 +1,27 @@
+
+block content
+  h1(style="margin-left:10%; margin-top:100px") Hear the Differnce
+  .playlist-card-container
+    each playlist in ['whats_new','energizing','uplifting','commercial','alt','cinematic','chill','swag']
+        .playlist-card
+            .playlist-card-img
+                img(src=`/images/playlists/${playlist}.jpg`, alt=`${playlist}`)
+            .playlist-card-content
+                h2
+                    case playlist
+                        when 'whats_new'
+                            | What's New
+                        when 'energizing'
+                            | Energizing
+                        when 'uplifting'
+                            | Uplifting Cinematic
+                        when 'commercial'
+                            | Commercial Work
+                        when 'alt'
+                            | Alt. R&B
+                        when 'cinematic'
+                            | Cinematic Vocals
+                        when 'chill'
+                            | Chill Beats
+                        when 'swag'
+                            | Swag Rock

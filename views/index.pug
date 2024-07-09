@@ -1,0 +1,49 @@
+extends layout.pug
+
+block top
+    #intro_video
+        video(playsinline="", autoplay="", muted="", loop="", poster="/images/intro_video.jpg")
+            //- source(src="/video/intro_video.mp4")
+        .overlay
+            div.center-container
+                h1 Music Licensing for New Media, Video And Film
+                h3
+                    | Representing
+                    | 
+                    span.orange real
+                    |
+                    | unsigned independent artists, musicians, composers, poets and bands
+            div.center-container
+                a.button(href="/music") Browse Music
+    ul#features
+        li
+            h4(style="margin-bottom:20px") Tell your story with real artists
+            p Discover fresh original songs from independent creators for your story today!
+        li
+            h4(style="margin-bottom:20px") Music licensing for videos films and new media
+            p We have pricing options for your working projects
+        li
+            h4(style="margin-bottom:20px") Licensing music for multiple platforms
+            p From YouTube, filmmakers to traditional broadcasting use, our music on any platform forever – everywhere
+
+    include playlist.pug
+
+    div.card
+        .card-content
+            h2 Want Freedom... from Subscription
+            p License a bundle of 5 tracks at 10% discount for online distribution: Pay for what you need when you need it.
+block content
+    include featured_artists.pug
+        div(style="background-color: rgb(234, 234, 234);")
+            h3(style="text-align: center; color:black; margin-bottom:50px; padding-top:70px; margin-top:100px") Trusted by several companies using our music
+            div.clients
+                div
+                    img.company-img(src="/images/company_logos/bbc-logo.png", alt="Client 1")
+                div
+                    img.company-img(src="/images/company_logos/apple-logo.png", alt="Client 2")
+                div
+                    img.company-img(src="/images/company_logos/mobo-logo.png", alt="Client 3")
+                div
+                    img.company-img(src="/images/company_logos/mtv-logo.png", alt="Client 4")
+                div
+                    img.company-img(src="/images/company_logos/cancer-gray-logo.png", alt="Client 4")

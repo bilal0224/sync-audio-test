@@ -1,0 +1,18 @@
+extends layout.pug
+
+block scripts
+    script(type="text/javascript", src="/js/playback.js")
+
+block content
+    h1 My shortlists
+    if shortlists && shortlists.length > 0
+        ul
+            for shortlist in shortlists
+                li
+                    a(href="/shortlist/"+shortlist.encoded)= shortlist.name
+                    | 
+                    span= shortlist.tracks.length > 1 ? "("+shortlist.tracks.length+" tracks)" : "(1 track)"
+    else
+        p Your shortlists are empty. Add some tracks by clicking the + button on a track.
+        p
+            a(href="/music") OK

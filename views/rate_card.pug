@@ -1,0 +1,16 @@
+extends layout.pug
+
+block content
+    h1 Sync-Audio Rate Card
+
+    table.rates
+        tbody
+            for rate in rates
+                tr.top
+                    td.name= rate.name
+                    if rate.track_price
+                        td.price £#{rate.track_price}
+                    else
+                        td
+                tr.bottom
+                    td(colspan="2")= rate.description

@@ -1,0 +1,19 @@
+if submissions.length > 0
+	h1 Your Submissions
+	table.submissions
+		thead
+			tr
+				td Title
+				td Artist
+				td Status
+		tbody
+			for track in submissions
+				tr
+					td= track.title
+					td= track.artist
+					if track.accepted
+						td Accepted
+					else if track.reviewed
+						td Rejected
+					else
+						td Awaiting review

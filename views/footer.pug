@@ -1,0 +1,44 @@
+footer
+	.footer
+		.flex-container
+			.social-container
+				img.logo(src="/images/logo-tailwind.png", alt="Sync-Audio Logo")
+				p.tagline Making the world a better place one music note at a time.
+				.social
+					a(href="https://facebook.com/syncaudiomusic")
+						img(src="/images/company_logos/facebook.svg")
+					a(href="https://twitter.com/syncaudio")
+						img(src="/images/company_logos/twitter.svg")
+					a(href="https://www.linkedin.com/in/sync-audio")
+						img(src="/images/company_logos/linkedin.svg")
+					a(href="https://www.instagram.com/syncaudioofficial")
+						img(src="/images/company_logos/instagram.svg")
+			.menu
+				.column
+					h3 Music
+					a(href="/music") Songs
+					a(href="/") Playlists
+					a(href="/submissions") Submissions
+				.column
+					h3 Support
+					a(href="/rates") Pricing
+					a(href="/") FAQ
+				.column
+					h3 Company
+					a(href="/about") About
+					a(href="/contact") Contact
+				.column
+					h3 Legal
+					a(href="/copyright") Copyright
+					a(href="/privacy_policy") Privacy Policy
+					a(href="/purchase_policy") Purchase Policy
+					a(href="/site_use_disclaimer") Site Use
+	hr.w-full
+	div.copyright &copy; #{year} Sync-Audio. All rights reserved.
+	script.
+		(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+			(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+			m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+		})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+		ga('create', 'UA-53929618-1', 'auto');
+		ga('send', 'pageview');

@@ -1,0 +1,118 @@
+if tracks && tracks.length > 0
+	for track in tracks
+		div(id=track.id, data-genre=track.genre, data-mood=track.mood, data-checksum=track.checksum, data-style=track.style, data-duration=track.duration, data-tempo=track.tempo, class=track.featured==1 ? "track featured noselect" : "track noselect")
+			ul
+				li
+					a.info
+						img(src="/images/icon-info.png", alt="Info", srcset="/images/icon-info@2x.png 2x, /images/icon-info@3x.png 3x")
+				li
+					a.play
+						img(src="/images/icon-play.png", alt="Play/Pause", srcset="/images/icon-play@2x.png 2x, /images/icon-play@3x.png 3x")
+				li
+					a.add
+						img(src="/images/icon-add.png", alt="Add to shortlist", srcset="/images/icon-add@2x.png 2x, /images/icon-add@3x.png 3x")
+				if showingShortlist && name
+					li
+						a.listremove(href="/shortlist?name="+encodeURIComponent(name)+"&remove="+track.id)
+							img(src="/images/icon-remove.png", alt="Remove from shortlist", srcset="/images/icon-remove@2x.png 2x, /images/icon-remove@3x.png 3x")
+				li.title= track.title
+				li.artist
+					a.artist(href="javascript:void(0)")= track.artist
+			a.license(href="/trolley/add/"+track.id) License
+			a.remove(href="/trolley/remove/"+track.id)
+				img(src="/images/icon-stop.png", alt="Remove", srcset="/images/icon-stop@2x.png 2x, /images/icon-stop@3x.png 3x")
+			a.delete(href="/account/delete_track/"+track.id)
+				img(src="/images/icon-stop.png", alt="Remove", srcset="/images/icon-stop@2x.png 2x, /images/icon-stop@3x.png 3x")
+			div.waveform
+				img.noselect(src="/images/waveforms/"+track.checksum+"-gray.png", alt="")
+				div.played
+					img.noselect(src="/images/waveforms/"+track.checksum+"-blue.png", alt="")
+	#player.noselect
+		audio(type="audio/mpeg")
+		.player
+			.button.play
+				a.play(href="javascript:void(0)")
+					img(src="/images/icon-pause.png", alt="Play/Pause", srcset="/images/icon-pause@2x.png 2x, /images/icon-pause@3x.png 3x")
+			.transport
+				.played
+			.info
+				span.title
+				span.artist
+				span.time
+					span.played 00:00
+					| /
+					span.remaining
+			.button.rwd
+				a.rwd(href="javascript:void(0)")
+					img(src="/images/icon-rwd.png", alt="Rewind" ,srcset="/images/icon-rwd@2x.png 2x, /images/icon-rwd@3x.png 3x")
+			.button.fwd
+				a.fwd(href="javascript:void(0)")
+					img(src="/images/icon-fwd.png", alt="Fast Forward" ,srcset="/images/icon-fwd@2x.png 2x, /images/icon-fwd@3x.png 3x")
+			.button.stop
+				a.stop(href="javascript:void(0)")
+					img(src="/images/icon-stop.png", alt="Stop" ,srcset="/images/icon-stop@2x.png 2x, /images/icon-stop@3x.png 3x")
+	if shortlists
+		script.
+			window.myShortlists = !{JSON.stringify(shortlists)};
+	script(type="text/javascript", src="/js/shortlist.js")
+	script.
+		$(function(){
+			$(document.body).append('<div id="trackinfo"><div>Duration: <span class="duration"></span></div><div>Genre: <span class="genre"></span></div><div>Tempo: <span class="tempo"></span></div><div>Mood: <span class="mood"></span></div><div>Style: <span class="style"></span></div></div>');
+			var trackInfoDiv = $('#trackinfo');
+			$(document.body).on("mousedown", function(event){
+				var x = event.pageX;
+				var y = event.pageY;
+				var trackOffset = trackInfoDiv.offset();
+				var trackRect = {
+					"left": trackOffset.left,
+					"top": trackOffset.top,
+					"right": trackOffset.left + trackInfoDiv.outerWidth(),
+					"bottom": trackOffset.top + trackInfoDiv.outerHeight()
+				};
+				if (x < trackRect.left || x > trackRect.right || y < trackRect.top || y > trackRect.bottom) {
+					trackInfoDiv.hide();
+				}
+			});
+			$("a.info").on("click", function(event){
+				var trackInfo = $(this).parents("div.track").data();
+				var durationMinutes = Math.floor(trackInfo.duration / 60);
+				var durationSeconds = Math.round(trackInfo.duration % 60);
+				var duration = (durationMinutes+"").padStart(2, "0")+":"+(durationSeconds+"").padStart(2, "0");
+				var img = $(this).find("img");
+				trackInfoDiv.find("span.duration").text(duration);
+				if (trackInfo.genre) {
+					trackInfoDiv.find("span.genre").parent().show();
+					trackInfoDiv.find("span.genre").text(trackInfo.genre);
+				} else {
+					trackInfoDiv.find("span.genre").parent().hide();
+				}
+				if (trackInfo.tempo) {
+					trackInfoDiv.find("span.tempo").parent().show();
+					trackInfoDiv.find("span.tempo").text(trackInfo.tempo+" BPM");
+				} else {
+					trackInfoDiv.find("span.tempo").parent().hide();
+				}
+				if (trackInfo.mood) {
+					trackInfoDiv.find("span.mood").parent().show();
+					trackInfoDiv.find("span.mood").text(trackInfo.mood);
+				} else {
+					trackInfoDiv.find("span.mood").parent().hide();
+				}
+				if (trackInfo.style) {
+					trackInfoDiv.find("span.style").parent().show();
+					trackInfoDiv.find("span.style").text(trackInfo.style);
+				} else {
+					trackInfoDiv.find("span.style").parent().hide();
+				}
+				trackInfoDiv.show();
+				trackInfoDiv.css({"top":($(this).offset().top-trackInfoDiv.outerHeight()/2)+"px","left":($(this).offset().left+8+img.width())+"px"});
+			});
+			$("a.delete").on("click", function(event) {
+				if (confirm("Delete track? This cannot be undone.")) {
+					return true;
+				} else {
+					event.preventDefault();
+					return false;
+				}
+			});
+		});

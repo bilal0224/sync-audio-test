@@ -1,0 +1,60 @@
+h1 Submit music
+form.upload(action="/account/upload", method="post", enctype="multipart/form-data")
+	.processing(style="display:none") Processing audio. Please wait.
+	.uploading(style="display:none") Uploading track. Please wait.
+	.uploadForm
+		p
+			input(type="file", name="track", accept="audio/wav")
+			input(type="hidden", name="tempo")
+			input(type="hidden", name="duration")
+			input(type="hidden", name="waveform")
+		p
+			input(type="text", name="title", placeholder="Title")
+		p
+			input(type="text", name="artist", placeholder="Artist")
+		p
+			input(type="text", name="writer", placeholder="Writer/composer")
+		p
+			input(type="text", name="cae_number", placeholder="CAE number (optional)")
+		p
+			input(type="text", name="master_recording_owner", placeholder="Master recording owner")
+		.formField
+			div
+				label(for="style") Style
+				.style
+					for t in ['Music with vocals','Instrumental','Acapella','Poetry']
+						div
+							input(name="style", type="radio", value=t)
+							| 
+							= t
+		.formField
+			div
+				label(for="mood[]") Mood
+			.moods
+				for mood in moods
+					div
+						input(type="checkbox", name="mood[]", value=mood)
+						| 
+						= mood
+		.formField
+			div
+				label(for="genre") Genres
+			div.tags
+				datalist.tags
+					for tag in genres
+						option(value=tag)
+				if track && track.genres && track.genres.length > 0
+					datalist.projectTags
+						for tag in track.genres
+							option(value=tag)
+		if !isAdminUser
+			p
+				input(type="checkbox", name="tnc")
+				| I agree with the Sync-Audio
+				| 
+				a(href="/pdf/sync-audio_user_agreement.pdf", target="_blank") terms and conditions
+			p
+				a.button.disabled.submit(href="javascript:void(0)") Upload
+		else
+			p
+				input(type="submit", value="Upload", disabled)

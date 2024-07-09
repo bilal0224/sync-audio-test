@@ -1,0 +1,31 @@
+extends layout.pug
+
+block scripts
+	script(type="text/javascript").
+		$(() => {
+			$("#submitMusic").on("click", function() {
+				const url = location.protocol+"//"+location.host+$(this).attr("href");
+				document.cookie = "redirect_url="+encodeURIComponent(url)
+				return true
+			})
+		})();
+
+block content
+	h1 Submit Music to Sync-Audio
+	p.submissions Are you an independent music maker? Licence your best unsigned songs on Sync-Audio.
+	div.video.submissions
+		iframe(src="//player.vimeo.com/video/139976493", width="100%", height="100%", frameborder="0", webkitallowfullscreen="1", mozallowfullscreen="1", allowfullscreen="1")
+	h3.faq 1. Log In With Paypal
+	p.submissions Your PayPal account will be used for authentication and to pay you commission on the sales of your music. It's free to join.
+	h3.faq 2. Upload Your Song
+	p.submissions Your submission will be reviewed by Sync-Audio. Sync-Audio reserves the right to refuse songs.
+	h3.faq 3. Get Paid
+	p.submissions Get paid when people licence your song on Sync-Audio. You will get 50% of the licence price minus PayPal fee.
+	p.submissions
+		a.button(id="submitMusic", href="/account/submissions") Submit Music
+		p Your song/track is a product that can be sold over and over again whilst you keep ownership of your music.
+	h1 Find Out More
+	p.submissions
+		a(href="/submissions/payment_policy") Artist payment policy
+	p.submissions
+		a(href="/submissions/faq") Frequently asked questions

@@ -1,0 +1,91 @@
+extends layout.pug
+
+append scripts
+	include ../jquery.pug
+	script(src="/js/genres.js")
+	script(src="/js/moods.js")
+	script(src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/3.0.4/fuse.min.js")
+
+mixin formField(title,name,type,value)
+	.formField
+		div
+			label(for=name)= title
+		div
+			input(type=type, name=name, value=value)
+
+append content
+	h1 Track Review
+	audio(src="/tracks/"+track.checksum+".mp3", controls)
+	form(action="/admin/tracks/"+track.id, method="post")
+		+formField('Title','title','text',track.title)
+		+formField('Artist','artist','text',track.artist)
+		+formField('Writer/composer','writer','text',track.writer)
+		+formField('CAE number','cae_number','text',track.cae_number)
+		+formField('Master recording owner','master_recording_owner','text',track.master_recording_owner)
+		.formField
+			div
+				label(for="style") Style
+			.style
+				for t in ['Music with vocals','Instrumental','Acapella','Poetry']
+					div
+						if track && track.style == t
+							input(name="style", type="radio", value=t, checked)
+							| 
+							= t
+						else
+							input(name="style", type="radio", value=t)
+							|
+							= t
+		.formField
+			div
+				label(for="mood[]") Mood
+			.moods
+				for mood in moods
+					- var selected = false;
+						if track && track.moods
+								for m in track.moods
+									if m == mood
+										- selected = true;
+						div
+							input(type="checkbox", name="mood[]", value=mood, checked=selected)
+							|
+							= mood
+		.formField
+			div
+				label(for="genre") Genres
+			div.tags
+				datalist.tags
+					for tag in genres
+						option(value=tag)
+				if track && track.genres && track.genres.length > 0
+					datalist.projectTags
+						for tag in track.genres
+							option(value=tag)
+		+formField('Tempo','tempo','number',track.tempo)
+		.formField
+			div
+				label(for="accepted") Action
+			div
+				select(name="accepted")
+					if !track.reviewed
+						option(value="-1") Decide later
+						option(value="1") Accept
+						option(value="0") Reject
+					else if track.accepted
+						option(value="1", selected) Accept
+						option(value="0") Reject
+					else
+						option(value="1") Accept
+						option(value="0", selected) Reject
+		if track.date_reviewed
+			.formField 
+				div Date reviewed 
+				div= track.date_reviewed
+		if track.date_added
+			.formField 
+				div Date added
+				div= track.date_added
+		.formField
+			input(type="submit", value="Save")
+	.formField
+		a(href="/admin/tracks/"+track.id+"/delete") Delete permanently

@@ -1,0 +1,26 @@
+extends layout.pug
+
+append content
+	h1= (status.charAt(0).toUpperCase() + status.substr(1))+" tracks submitted by "+artist
+	if tracks
+		form(action="", method="post")
+			table.purchases
+				thead
+					tr
+						td.nobr Title
+						td.nobr Date Added
+						td.nobr Commercial Only
+						td.nobr(colspan="2") Download
+				tbody
+					for track in tracks
+						tr
+							td
+								a(href="/admin/tracks/"+track.id)= track.title
+							td.nobr= track.date_added
+							td
+								input(type="checkbox", name="commercial_only[]", value=track.id, checked=track.commercial_licence_only==1)
+							td.download.wav
+								a.download.wav(href="/tracks/"+track.checksum+".wav",download) WAV
+							td.download.mp3
+								a.download.mp3(href="/tracks/"+track.checksum+".mp3",download) MP3
+			input(type="submit", value="Save")

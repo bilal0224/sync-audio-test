@@ -1,0 +1,13 @@
+if artists && artists.length > 0
+	h1(style="text-align: center;") Featured Artists
+	p(style="text-align: center; color:gray; margin-bottom:100px; margin-top:30px") We’ve a dynamic group of individuals who are passionate about what music and are dedicated to producing the finest collection of music
+	ul.artists
+		each artist in artists
+			li
+				div.image
+					a(href="/artist/"+artist.id)
+						img(src="/images/artists/"+artist.id+".jpg")
+				h4
+					a(href="/artist/"+artist.id)= artist.name
+					br
+					b(href="/artist/"+artist.id, style="color:#999999;font-size:16px; font-weight:lighter;")= artist.job

@@ -1,0 +1,13 @@
+extends layout.pug
+
+block scripts
+	script(type="text/javascript", src="/js/playback.js")
+
+block content
+	div.artist
+		div.image
+			img(src="/images/artists/"+id+".jpg")
+		div.text
+			h1= tracks[0].artist
+			p= text
+	include tracks.pug

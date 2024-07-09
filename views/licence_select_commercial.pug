@@ -1,0 +1,53 @@
+extends layout.pug
+
+block scripts
+    script(type="text/javascript").
+        $(document).ready(function(){
+            $("input[name='licenceId']").on("click", function(){
+                $("#tnclink").attr("href", "/trolley/com_licence_tnc/"+$(this).val());
+                $("input[type='submit'],input[type='checkbox']").removeAttr("disabled");
+            });
+        });
+
+block content
+    h1 Please select licence
+
+    h2= licences[0].name
+    if licences[0].description
+        h4= licences[0].description
+    form(action="/trolley/add/"+trackId+"/commercial", method="post")
+        for val, key in form
+            input(type="hidden", name=key, value=val)
+        table.licence
+            thead
+                tr
+                    td
+                    td Use
+                    td Territory
+                    td Price
+            tbody
+                for licence in licences
+                    tr
+                        if licence.price
+                            td
+                                input(type="radio", name="licenceId", value=licence.id)
+                            td= licence.use
+                            td.territory= licence.territory
+                            td.nowrap
+                                | £#{licence.price}
+                                br
+                                | per #{licence.unit}
+                        else
+                            td
+                            td= licence.use
+                            td.territory= licence.territory
+                            td.nowrap
+                                a(href="mailto:info@sync-audio.com") Contact us
+        p
+            input(type="checkbox", name="agree", value="1", disabled)
+            | 
+            | I agree with the 
+            | 
+            a#tnclink(href="javascript:void(0)", target="_blank") licence terms and conditions
+        p
+            input(type="submit", value="Add to trolley", disabled)

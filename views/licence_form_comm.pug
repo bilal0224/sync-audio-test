@@ -1,0 +1,81 @@
+extends layout.pug
+
+block scripts
+    script.
+        $(function(){
+            $("input[name='licenceCategory']").on("click", function() {
+                if ($(this).val() == "other") {
+                    $("#form").hide();
+                    $("#contact").show();
+                } else {
+                    $("#form").show();
+                    $("#contact").hide();
+                }
+            });
+        });
+
+block content
+    form(action="/trolley/add/"+trackId+"/commercial", method="post")
+        if licenceCategories
+            .entry
+                div
+                    label(for="licenceCategory") Project type
+                div.categories
+                    for category in licenceCategories
+                        div
+                            div
+                                if licenceCategory && licenceCategory == category.id
+                                    input(type="radio", name="licenceCategory", value=category.id, checked="checked")
+                                else
+                                    input(type="radio", name="licenceCategory", value=category.id)
+                                | 
+                                strong= category.name
+                            div= category.description
+                    div
+                        div
+                            input(type="radio", name="licenceCategory", value="other")
+                            | 
+                            strong Other
+                        div We can tailor a licence to your needs.
+        #form
+            .entry
+                div
+                    label(for="firstName") First name
+                div
+                    input(type="text", name="firstName", placeholder="First name", value=firstName)
+            .entry
+                div
+                    label(for="lastName") Last name
+                div
+                    input(type="text", name="lastName", placeholder="Last name", value=lastName)
+            .entry
+                div
+                    label(for="company") End client
+                div
+                    input(type="text", name="company", placeholder="Company", value=company)
+            .entry
+                div
+                    label(for="email") Email
+                div
+                    input(type="email", name="email", placeholder="name@company.com", value=email)
+            .entry
+                div
+                    label(for="website") Website
+                div
+                    input(type="text", name="website", placeholder="www.mywebsite.com", value=website)
+            .entry
+                div
+                    label(for="projectTitle") Project title
+                div
+                    input(type="text", name="projectTitle", placeholder="e.g. Big Bus", value=projectTitle)
+            if licenceCategory
+                input(type="hidden", name="licenceCategory", value=licenceCategory)
+            .entry
+                div
+                    input(type="submit", value="Submit")
+        #contact
+            p
+                | Please
+                | 
+                a("href"="mailto:info@sync-audio.com") contact Sync-Audio
+

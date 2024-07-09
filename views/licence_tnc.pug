@@ -1,0 +1,12 @@
+extends layout.pug
+
+block scripts
+	if print
+		script.
+			window.onload = function() {
+				setTimeout(window.print, 500);
+			}
+
+block content
+	div
+		| !{text}

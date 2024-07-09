@@ -1,0 +1,62 @@
+extends layout.pug
+
+block scripts
+	script(type="text/javascript", src="/js/search.js")
+	script(type="text/javascript", src="/js/playback.js")
+	script(src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/3.0.4/fuse.min.js")
+
+block content
+	include featured_artists.pug
+	h1 Music Search
+	.search
+		img.search(src="/images/search.png")
+		.input
+			input(type="text", placeholder="Enter artist or track title")
+		a.clear(href="javascript:void(0)")
+			img(src="/images/icon-stop.png", alt="Clear search", srcset="/images/icon-stop@2x.png 2x, /images/icon-stop@3x.png 3x")
+	.filterTabs
+		div Filter by
+		ul
+			if genres && genres.length > 0
+				li
+					a.filterTitle(href="javascript:void(0)", name="genres") Genre
+			if moods && moods.length > 0
+				li
+					a.filterTitle(href="javascript:void(0)", name="moods") Mood
+			if styles && styles.length > 0
+				li
+					a.filterTitle(href="javascript:void(0)", name="styles") Style
+			if tempos && tempos.length > 0
+				li
+					a.filterTitle(href="javascript:void(0)", name="tempos") Tempo
+	.appliedFilters
+	div.filters
+		if genres && genres.length > 0
+			ul.genres
+				for genre in genres
+					li
+						input.genre(type="checkbox", value=genre)
+						| 
+						=genre
+		if moods && moods.length > 0
+			ul.moods
+				for mood in moods
+					li
+						input.mood(type="checkbox", value=mood)
+						| 
+						=mood
+		if styles && styles.length > 0
+			ul.styles
+				for style in styles
+					li
+						input.style(type="checkbox", value=style)
+						| 
+						=style
+		if tempos && tempos.length > 0
+			ul.tempos
+				for tempo in tempos
+					li
+						input.tempo(type="checkbox", value=tempo)
+						|
+						=tempo
+	include tracks.pug

@@ -1,0 +1,14 @@
+header
+	a.logo(href="/")
+		img(src="/images/logo-tailwind.png", alt="Sync-Audio")
+	ul.menu
+		li.music
+			a(href="/music") Music
+		li.about
+			a(href="/about") About
+		if trolley && trolley.trackIds && trolley.trackIds.length > 0
+			li.trolley
+				a(href="/trolley") Trolley
+		if shortlists && shortlist.length > 0
+			li.shortlists
+				a(href="/shortlists") Shortlists

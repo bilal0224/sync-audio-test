@@ -1,0 +1,31 @@
+extends layout.pug
+
+append content
+	h1 Submitted tracks
+	if artists
+		table
+			thead
+				tr
+					td Account
+					td Accepted tracks
+					td Rejected tracks
+					td Pending tracks
+			tbody
+				for item in artists
+					tr
+						td= item.email
+						td
+							if item.accepted > 0
+								a(href="/admin/artist/"+item.email+"/accepted")= item.accepted
+							else
+								| –
+						td
+							if item.rejected > 0
+								a(href="/admin/artist/"+item.email+"/rejected")= item.rejected
+							else
+								| –
+						td
+							if item.pending > 0
+								a(href="/admin/artist/"+item.email+"/pending")= item.pending
+							else
+								| –

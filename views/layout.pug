@@ -1,0 +1,57 @@
+doctype html
+html(lang="en")
+	head
+		meta(name="viewport", content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no")
+		meta(name="description", content="Representing the finest music from emerging unsigned, independent creators. We supply affordable, quality tracks for use in your film, video and new media.")
+		meta(name="theme-color", content="#53B7EA")
+		title Sync-Audio | Music licensing for the digital age
+		link(rel="stylesheet", type="text/css", href="/css/style.css")
+		//- link(rel="stylesheet", type="text/css", href="/css/tailwind.css")
+		include jquery.pug
+		script.
+			$(function(){
+				if (sessionStorage.acceptCookies) {
+					$("div.cookieNotice").hide();
+				}
+				$("a.okCookie").on("click", function(){
+					sessionStorage.setItem("acceptCookies", true);
+					$("div.cookieNotice").hide();
+				});
+			});
+		block scripts
+	body
+		#container
+			.cookieNotice
+				.notice
+					h3 This website uses cookies
+					p
+						| Sync-Audio uses cookies set by Google Analytics for the purpose of analysing our website traffic. Google Analytics is anonymous and does not track any personal information. Sync-Audio uses Paypal to facilitate account login. If you licence a track on Sync-Audio or submit music to Sync-Audio we will store a cookie with Paypal access token. For more information see our
+						| 
+						a(href="/privacy_policy") privacy policy
+				.action
+					a.okCookie(href="javascript:void(0)") Dismiss
+			block header
+				header
+					a.logo(href="/")
+						img(src="/images/logo-tailwind.png", alt="Sync-Audio")
+					ul.menu
+						li.music
+							a(href="/music") Music
+						li.about
+							a(href="/about") About
+						if shortlists && shortlists.length > 0
+							li.shortlists 
+								a(href="/shortlist") Shortlists
+						if paypalAccessToken
+							li.account
+								a(href="/account") Account
+						else
+							li.login
+								a(href="/account") Log in
+						if trolley && trolley.tracks && trolley.tracks.length > 0
+							li.trolley
+								a(href="/trolley") Trolley
+			block top
+			#content
+				block content
+			include footer.pug
